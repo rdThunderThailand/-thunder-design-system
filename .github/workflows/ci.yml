@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+
+      - name: Tokens, skill and colors
+        run: npm test
+
+      - name: Type-check and build theme package
+        run: npm run build -w @rdthunderthailand/mw-theme
+
+      - name: Tailwind v3 compiles with the preset
+        working-directory: tests
+        run: |
+          npm init -y >/dev/null
+          npm i --no-save tailwindcss@3 ../packages/mw-theme
+          printf "module.exports = { presets: [require('@rdthunderthailand/mw-theme/tailwind/preset')], content: ['./fixture.html'] };\n" > tailwind.config.cjs
+          { cat node_modules/@rdthunderthailand/mw-theme/tailwind/shadcn.css; printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n'; } > v3.css
+          npx tailwindcss -c tailwind.config.cjs -i v3.css -o v3.out.css
+          for c in bg-sidebar-accent shadow-panel rounded-card bg-success-muted h-header; do grep -q "\.$c" v3.out.css || { echo "missing .$c"; exit 1; }; done
+
+      - name: Tailwind v4 compiles with the theme CSS
+        working-directory: tests
+        run: |
+          npm i --no-save tailwindcss@4 @tailwindcss/cli@4
+          printf '@import "tailwindcss";\n@import "@rdthunderthailand/mw-theme/tailwind/v4.css";\n@source "./fixture.html";\n' > v4.css
+          npx @tailwindcss/cli -i v4.css -o v4.out.css
+          for c in bg-sidebar-accent shadow-panel rounded-card bg-success-muted h-header; do grep -q "\.$c" v4.out.css || { echo "missing .$c"; exit 1; }; done
+
+      - name: Setup CLI runs in a fresh project
+        run: |
+          mkdir -p /tmp/p && cd /tmp/p && git init -q
+          echo '{"name":"p","dependencies":{"antd":"^5"}}' > package.json
+          DISABLE_TELEMETRY=1 node $GITHUB_WORKSPACE/bin/mw-setup.mjs --source $GITHUB_WORKSPACE
+          test -f .agents/skills/media-workspace-ui/SKILL.md
+          grep -q "thunder-design-system:start" AGENTS.md
+          grep -q "@AGENTS.md" CLAUDE.md
