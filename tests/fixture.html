@@ -1,0 +1,24 @@
+<div class="flex min-h-screen bg-background text-foreground font-sans">
+  <aside class="w-sidebar bg-sidebar border-r border-sidebar-border p-2 flex flex-col gap-1">
+    <div class="h-header flex items-center px-2 font-extrabold">Thunder One</div>
+    <p class="px-3 pt-3 text-[11px] font-bold uppercase tracking-wider text-sidebar-foreground">Channels</p>
+    <a class="h-nav flex items-center px-3 rounded-nav bg-sidebar-accent text-sidebar-accent-foreground font-semibold">All channels</a>
+    <a class="h-nav flex items-center px-3 rounded-nav text-sidebar-foreground hover:bg-muted">Screens</a>
+    <a class="h-nav flex items-center px-3 rounded-nav text-sidebar-foreground hover:bg-muted">Kiosks</a>
+  </aside>
+  <main class="flex-1 p-6 flex flex-col gap-3">
+    <h1 class="text-page-title font-extrabold">All channels</h1>
+    <p class="text-sm text-muted-foreground">Every screen, TV, PA zone and kiosk you manage</p>
+    <div class="grid grid-cols-3 gap-3">
+      <div class="bg-card rounded-card border border-border shadow-panel p-4"><div class="text-xs font-semibold text-muted-foreground">Online</div><div class="text-kpi font-bold">11</div><span class="inline-flex items-center gap-1.5 rounded-pill bg-success-muted text-success px-2 py-0.5 text-xs font-bold"><i class="w-1.5 h-1.5 rounded-pill bg-success"></i>Online</span></div>
+      <div class="bg-card rounded-card border border-border shadow-panel p-4"><div class="text-xs font-semibold text-muted-foreground">Warning</div><div class="text-kpi font-bold">3</div><span class="inline-flex items-center gap-1.5 rounded-pill bg-warning-muted text-warning px-2 py-0.5 text-xs font-bold"><i class="w-1.5 h-1.5 rounded-pill bg-warning"></i>Warning</span></div>
+      <div class="bg-card rounded-card border border-border shadow-panel p-4"><div class="text-xs font-semibold text-muted-foreground">Offline</div><div class="text-kpi font-bold">2</div><span class="inline-flex items-center gap-1.5 rounded-pill bg-error-muted text-error px-2 py-0.5 text-xs font-bold"><i class="w-1.5 h-1.5 rounded-pill bg-error"></i>Offline</span></div>
+    </div>
+    <div class="flex gap-2">
+      <button class="h-control px-4 rounded-control bg-primary text-primary-foreground font-semibold hover:bg-primary/90">Add channel</button>
+      <button class="h-control px-4 rounded-control border border-input bg-card font-semibold">Refresh</button>
+      <input class="h-control px-3 rounded-control border border-input bg-card focus:outline-none focus:ring-2 focus:ring-ring" placeholder="Search channel">
+      <span class="self-center text-mw-blue-1100 font-bold">mw primitive</span>
+    </div>
+  </main>
+</div>

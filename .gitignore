@@ -1,0 +1,14 @@
+node_modules/
+dist/
+/packages/mw-theme/tailwind/
+/packages/mw-theme/brand/
+/packages/mw-theme/global.css
+*.tgz
+.DS_Store
+# CI scratch output in tests/
+/tests/package.json
+/tests/package-lock.json
+/tests/*.out.css
+/tests/v3.css
+/tests/v4.css
+/tests/tailwind.config.cjs

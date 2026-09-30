@@ -1,0 +1,18 @@
+{
+  "name": "thunder-design-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "ThunderOne design system: agent skill, theme package and setup CLI.",
+  "type": "module",
+  "bin": { "mw-setup": "bin/mw-setup.mjs" },
+  "files": ["bin", "skills/media-workspace-ui/AGENTS.snippet.md"],
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "build:tokens": "node scripts/build.mjs",
+    "check:tokens": "node scripts/build.mjs --check",
+    "build": "npm run build:tokens && npm run build -w @rdthunderthailand/mw-theme",
+    "typecheck": "npm run typecheck -w @rdthunderthailand/mw-theme",
+    "test": "node scripts/test.mjs"
+  },
+  "engines": { "node": ">=18" }
+}
