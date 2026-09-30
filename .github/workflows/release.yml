@@ -1,0 +1,45 @@
+name: Release
+
+# Tag to release, e.g.  git tag v0.2.0 && git push origin v0.2.0
+# The tag version must match packages/mw-theme/package.json "version".
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write   # create the GitHub release
+  packages: write   # publish to GitHub Packages
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+          scope: '@rdthunderthailand'
+      - run: npm ci
+      - run: npm test
+
+      - name: Tag matches package version
+        run: |
+          v=$(node -p "require('./packages/mw-theme/package.json').version")
+          [ "v$v" = "$GITHUB_REF_NAME" ] || { echo "Tag $GITHUB_REF_NAME does not match package version $v"; exit 1; }
+
+      - name: Publish @rdthunderthailand/mw-theme
+        run: |
+          npm run build -w @rdthunderthailand/mw-theme
+          npm publish -w @rdthunderthailand/mw-theme
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Zip the skill for the Claude app and Lovable
+        run: cd skills && zip -r ../media-workspace-ui.zip media-workspace-ui
+
+      - name: GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: media-workspace-ui.zip
+          generate_release_notes: true
