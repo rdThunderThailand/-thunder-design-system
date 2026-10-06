@@ -1,7 +1,7 @@
 name: Release
 
 # Tag to release, e.g.  git tag v0.2.0 && git push origin v0.2.0
-# The tag version must match packages/mw-theme/package.json "version".
+# The tag version must match packages/thunderone-theme/package.json "version".
 on:
   push:
     tags: ['v*']
@@ -25,21 +25,21 @@ jobs:
 
       - name: Tag matches package version
         run: |
-          v=$(node -p "require('./packages/mw-theme/package.json').version")
+          v=$(node -p "require('./packages/thunderone-theme/package.json').version")
           [ "v$v" = "$GITHUB_REF_NAME" ] || { echo "Tag $GITHUB_REF_NAME does not match package version $v"; exit 1; }
 
-      - name: Publish @rdthunderthailand/mw-theme
+      - name: Publish @rdthunderthailand/thunderone-theme
         run: |
-          npm run build -w @rdthunderthailand/mw-theme
-          npm publish -w @rdthunderthailand/mw-theme
+          npm run build -w @rdthunderthailand/thunderone-theme
+          npm publish -w @rdthunderthailand/thunderone-theme
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Zip the skill for the Claude app and Lovable
-        run: cd skills && zip -r ../media-workspace-ui.zip media-workspace-ui
+        run: cd skills && zip -r ../thunderone-ui.zip thunderone-ui
 
       - name: GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          files: media-workspace-ui.zip
+          files: thunderone-ui.zip
           generate_release_notes: true
