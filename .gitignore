@@ -1,8 +1,8 @@
 node_modules/
 dist/
-/packages/mw-theme/tailwind/
-/packages/mw-theme/brand/
-/packages/mw-theme/global.css
+/packages/thunderone-theme/tailwind/
+/packages/thunderone-theme/brand/
+/packages/thunderone-theme/global.css
 *.tgz
 .DS_Store
 # CI scratch output in tests/
