@@ -10,5 +10,6 @@ This repo is the ThunderOne design system, shared by every Workspace. Rules for 
 - Rule IDs (DS-xx) and open decisions (OD-xx) are cited by reviews and QC reports. Never renumber them; retire an ID instead of reusing it.
 - `npm test` must pass before a PR. It fails if a derived file is stale, a color is not a token, a listed profile is missing, or core docs contain Workspace terms.
 - Keep `SKILL.md` short and imperative. Detail goes in `references/`.
+- `skills/` also holds product workflow skills (`spec-design-conformance`, `figjam-read-via-chrome`, `workspace-design-dev-plan`). They are not part of the UI core: core-neutrality and token checks do not apply to them, and the setup CLI does not install them. Each must keep a valid frontmatter whose `name` matches its folder (`npm test` checks this).
 - `AGENTS.snippet.md` is what gets written into other projects' AGENTS.md. Keep it under ~20 lines. `{{WORKSPACE}}` is filled by the setup CLI.
 - Release by tag `vX.Y.Z` matching `packages/thunderone-theme/package.json`.

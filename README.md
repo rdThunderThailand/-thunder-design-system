@@ -9,6 +9,7 @@ One source of truth for the UI of **every ThunderOne Workspace** (Media, Help, a
 | Theme package `@rdthunderthailand/thunderone-theme` | `packages/thunderone-theme/` | Code: Ant Design theme, Tailwind v3/v4 + shadcn theme, platform icons, tokens, logos, Workspace extras |
 | Setup CLI | `bin/setup.mjs` | People: one command per project |
 | Design tokens | `skills/thunderone-ui/tokens.json` | Everything above is generated from this file |
+| Product workflow skills | `skills/spec-design-conformance/`, `skills/figjam-read-via-chrome/`, `skills/workspace-design-dev-plan/` | Agents: PO / UX / Dev work around the design (see below). Not part of the UI core |
 
 Token values were first extracted from Figma **Rev.2 - Media Workspace**, the first Workspace built on this system.
 
@@ -105,6 +106,30 @@ npm update @rdthunderthailand/thunderone-theme
 ```
 
 Coming from `@rdthunderthailand/mw-theme` / `media-workspace-ui`: see [MIGRATION.md](MIGRATION.md).
+
+## Product workflow skills
+
+Three skills for the product process around the design system. They are separate from `thunderone-ui`: the setup CLI does not install them, and the core rules (DS-xx) do not apply to them.
+
+| Skill | Use it to |
+|---|---|
+| `spec-design-conformance` | Check a FigJam/Figma design or a built screen against the latest Product Definition + Specification; report P0/P1 gaps and CONFLICTs traced to UC/AC, with gate states PASS / PARTIAL / MISSING / CONFLICT |
+| `figjam-read-via-chrome` | Read a FigJam board (text, tables, mockup images) through the user's logged-in Chrome when Figma MCP credits or rate limits run out. Read-only |
+| `workspace-design-dev-plan` | Compare a new Workspace design with the `thunder-one-prj` code: reuse matrix, phased dev plan, Definition/Specification drafts |
+
+They follow the ThunderOne Product Development Playbook v1.1 and the Roles, DoD & Performance Framework v0.3, and are written in Thai.
+
+**Install**
+
+- Claude Code / Codex / Antigravity, in the project root (same `skills` CLI the setup uses; repeat per skill, add `-a codex -a antigravity` as needed):
+  ```bash
+  npx -y skills@1.7.0 add rdThunderThailand/-thunder-design-system --skill spec-design-conformance -a claude-code -y
+  npx -y skills@1.7.0 add rdThunderThailand/-thunder-design-system --skill figjam-read-via-chrome -a claude-code -y
+  npx -y skills@1.7.0 add rdThunderThailand/-thunder-design-system --skill workspace-design-dev-plan -a claude-code -y
+  ```
+- Claude app: zip the skill folder (`cd skills && zip -r spec-design-conformance.zip spec-design-conformance`), then an org owner uploads it in Organization settings → Plugins & skills, or a member uploads it in Settings → Capabilities → Skills.
+
+`figjam-read-via-chrome` needs Claude in Chrome. `workspace-design-dev-plan` expects the `thunder-one-prj` repo as a connected folder.
 
 ## Change the design system
 

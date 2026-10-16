@@ -39,6 +39,18 @@ const core = ['SKILL.md', 'AGENTS.snippet.md', 'references/components.md', 'refe
 const leaks = core.flatMap((f) => readFileSync(join(SKILL, f), 'utf8').split('\n').map((l, i) => [f, i + 1, l]).filter(([, , l]) => DOMAIN.test(l) && !/workspaces\/|e\.g\.|channel type, content type/i.test(l)).map(([f, n, l]) => `${f}:${n} ${l.trim().slice(0, 90)}`));
 leaks.length ? fail('Workspace-specific terms in core docs (move them to a Workspace profile):\n  ' + leaks.join('\n  ')) : ok('core docs are workspace-neutral');
 
+// 3c. Every skill in skills/ has valid frontmatter (name matches folder, description present and <= 1024 chars)
+for (const dir of readdirSync(join(ROOT, 'skills')).filter((d) => statSync(join(ROOT, 'skills', d)).isDirectory())) {
+  const f = join(ROOT, 'skills', dir, 'SKILL.md');
+  if (!existsSync(f)) { fail(`skills/${dir} has no SKILL.md`); continue; }
+  const head = readFileSync(f, 'utf8').match(/^---\n([\s\S]*?)\n---/);
+  const field = (k) => head && (head[1].match(new RegExp(`^${k}:\\s*"?(.*?)"?\\s*$`, 'm')) || [])[1];
+  if (!head) fail(`skills/${dir}/SKILL.md has no frontmatter`);
+  else if (field('name') !== dir) fail(`skills/${dir}/SKILL.md name "${field('name')}" must match folder "${dir}"`);
+  else if (!field('description') || field('description').length > 1024) fail(`skills/${dir}/SKILL.md description missing or over 1024 chars`);
+}
+ok('every skill folder has valid frontmatter');
+
 // 4. No color in theme outputs that is not a token
 const tokens = JSON.parse(readFileSync(join(SKILL, 'tokens.json'), 'utf8'));
 const allowed = new Set(JSON.stringify(tokens).match(/#[0-9A-Fa-f]{6}\b/g).map((h) => h.toUpperCase()));
