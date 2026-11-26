@@ -1,32 +1,39 @@
-# Brand — ThunderOne
+# Brand (DS-10)
 
-Source: Figma page "Brand Assets" (Usage Guide + LOGO THUNDER ONE export frames).
+Source: Figma "[DS] - Design System", page **Brand** ("Thunder One logo — official vector masters", node `8:6`). The masters are the 9 SVG files in Drive *ThunderOne / 01 — Brand / 01 — Logo / SVG* (22 Sep 2026), imported unmodified as Figma components. README Brand Hard Gate: **do not redraw, recolour or distort**.
 
-## Files (`assets/brand/`)
-| File | Use |
+## Official variants (Figma components)
+
+| Component | Size (1×) | Use |
+|---|---|---|
+| Logo/Horizontal/Dark text | 172 × 48 | Default signature on light surfaces: login, documents, cards |
+| Logo/Horizontal/Light text | 172 × 48 | On navy / dark surfaces (`sidebar-primary`, photos) |
+| Logo/Horizontal + Title/Dark text | 249 × 53 | Lockup with a workspace title; the sidebar brand header uses it at 0.74 (184 × 39) with the title replaced by live text (`shell.md`) |
+| Logo/Stacked/Dark text, Logo/Stacked/Light text | 101 × 72 | Square-ish spaces (splash, empty brand areas) |
+| Logo/Stacked tile/On navy, Logo/Stacked tile/On white | 133 × 120 | Tiles, store/listing art |
+| Logo/Mark (app icon)/Black, Logo/Mark (app icon)/White | 96 × 96 | App icon, favicon, avatar, collapsed sidebar (36 × 36), device tiles |
+
+Files in this skill (`assets/brand/`):
+| File | Figma variant |
 |---|---|
-| `thunderone-logo-horizontal-color.svg` (172×48) | Default signature on light surfaces: sidebar logo block, login, documents |
-| `thunderone-logo-horizontal-white.svg` (172×48) | On dark or photographic surfaces |
-| `thunderone-mark-t1-dark.svg` (96×96, dark tile) | App icon, favicon, avatar, collapsed sidebar, device tiles |
-| `thunderone-mark-t1-light.svg` (96×96, white tile) | Same as above, on dark UI |
+| `thunderone-logo-horizontal-color.svg` | Logo/Horizontal/Dark text |
+| `thunderone-logo-horizontal-white.svg` | Logo/Horizontal/Light text |
+| `thunderone-mark-t1-dark.svg` | Logo/Mark (app icon)/Black |
+| `thunderone-mark-t1-light.svg` | Logo/Mark (app icon)/White |
 
-Brand colors in the artwork: navy `#010F29` (= blue/1100), blue gradient `#0551DE → #0444BB` (blue/600 → blue/700).
+The stacked, tile and "+ Title" variants are in Figma only; export them from the Brand page (or the Drive SVG folder) when a screen needs them. Never rebuild them.
 
-## Rules (from the Figma Usage Guide)
-1. **Primary logo:** use the horizontal lockup as the default signature across product, website, documents and sales materials.
-2. **T1 mark:** use it when space is tight (app icon, favicon, avatar, compact navigation, device or app tile). Below the lockup's minimum size, switch to the mark.
-3. **Color variants:** only full color, dark and white/reversed are allowed. Never recolor the logo with semantic or status colors.
-4. **Clear space:** keep text, icons, borders and imagery out of the exclusion area around the mark.
-5. **Background:** dark artwork on light surfaces; white/reversed artwork on dark or photographic surfaces, with enough contrast.
-6. **Do not** stretch, rotate, distort, add effects, change spacing, rebuild the wordmark as live text, or pair the logo with unapproved taglines.
-7. **Naming:** `Brand/ThunderOne/Logo/Horizontal/Color`, `…/Horizontal/White`, `Brand/ThunderOne/Mark/T1/Color`.
+## Colors in the artwork
+- Navy `#010F29` ("T", "Thunder", tiles) = token `brand-navy`.
+- "One" and mark gradient `#0551DE → #0444BB`; `#0C60FA` gradient start in the "+ Title" file only; `#374151` "… Workspace" subtitle.
+- Decision 2026-11-13: UI primary stays `#286EF9`. The logo blues and `#374151` stay inside the logo files; they are not UI tokens.
 
-## In the app
-- Sidebar logo block: 224×68, logo about 184×40, 16px inset. Collapsed sidebar shows the T1 mark.
-- Always import the SVG file. Never re-type "Thunder One" in a font to fake the wordmark.
+## Rules
+1. Horizontal lockup is the default signature. Use the T1 mark when space is tight (app icon, favicon, avatar, collapsed sidebar, device tile).
+2. Dark-text artwork on light surfaces; light-text / white artwork on navy, dark or photographic surfaces, with enough contrast.
+3. Only the official color variants. Never recolor with semantic, status or icon colors.
+4. Do not stretch, rotate, distort, add effects, change spacing, rebuild the wordmark as live text, or pair it with unapproved taglines.
+5. Always import the SVG file. Never type "Thunder One" in a font to fake the wordmark. (The live workspace name next to the lockup in the sidebar is the one approved live-text element.)
 
-## Open items in Figma
-- "Approved Masters" is still **empty** (placeholders only). The files here come from the "LOGO THUNDER ONE" export frames, which already have SVG export presets. Replace them once masters are locked.
-- Minimum size and clear-space values are not defined yet ("Define minimum digital and print sizes before publishing").
-- More variants exist in Figma but are not included here: stacked lockups (TextBlack, TextWhite, with and without background) and TextBlack + Title.
-- The "logo" component on the Assets Icon page is the **Ant Design** logo that ships with the icon kit. It is not a company asset, so never use it.
+## Open items
+- No brand guideline yet (Drive "02 — Brand Guidelines" and "03 — Color & Typography" are empty): clear space and minimum size are not defined. Use the sizes in the table above and ask design before going smaller.

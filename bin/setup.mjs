@@ -6,11 +6,11 @@
  *
  * What it does (each step can be skipped):
  *   1. Adds/updates the design-system section in AGENTS.md (between markers, never touches the rest),
- *      including which ThunderOne Workspace this project belongs to (--workspace media|help|…)
+ *      including which ThunderOne Workspace this project belongs to (--workspace media|asset|help|…)
  *   2. Makes CLAUDE.md import AGENTS.md so Claude Code reads the same rules
  *   3. Installs the thunderone-ui skill for your agents via `npx skills` (telemetry off)
  *   4. Points the @rdthunderthailand npm scope at GitHub Packages in .npmrc
- *   5. Prints how to install and wire the theme for your stack (antd or Tailwind)
+ *   5. Prints how to install and wire the theme for your stack (Tailwind v4 or v3, shadcn/ui)
  */
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -35,9 +35,9 @@ if (has('-h') || has('--help')) {
   console.log(`Usage: npx github:${REPO} [options]
 
 Options
-  --workspace <key>  ThunderOne Workspace of this project (e.g. media, help). Picks the skill's Workspace profile
+  --workspace <key>  ThunderOne Workspace of this project (e.g. media, asset, help). Picks the skill's Workspace profile
   --agents <list>    Agents to install the skill for (default: claude-code,codex,antigravity)
-  --stack <name>     antd | tailwind (default: detected from package.json)
+  --stack <name>     tailwind4 | tailwind (v3) (default: detected from package.json, else tailwind4)
   --source <src>     Where to install the skill from (default: ${REPO}; a local path works too)
   --no-skill         Skip installing the skill
   --no-agents-md     Skip AGENTS.md / CLAUDE.md
@@ -120,15 +120,12 @@ if (!stack) {
   try {
     const pj = JSON.parse(readFileSync(join(cwd, 'package.json'), 'utf8'));
     const deps = { ...pj.dependencies, ...pj.devDependencies };
-    stack = deps.antd ? 'antd' : deps.tailwindcss ? (/^[\^~]?4/.test(deps.tailwindcss) ? 'tailwind4' : 'tailwind') : '';
+    if (deps.antd) log('!', 'antd found in package.json. The design system is shadcn/ui + Tailwind + lucide since 1.0; see MIGRATION.md.');
+    stack = deps.tailwindcss && /^[\^~]?3/.test(deps.tailwindcss) ? 'tailwind' : 'tailwind4';
   } catch { /* no package.json */ }
 }
+stack = stack || 'tailwind4';
 const steps = {
-  antd: `  import { ConfigProvider, App } from 'antd';
-  import { t1Theme } from '${PKG}/antd';
-  import '${PKG}/global.css';
-
-  <ConfigProvider theme={t1Theme}><App>{/* your app */}</App></ConfigProvider>`,
   tailwind: `  // tailwind.config.ts
   presets: [require('${PKG}/tailwind/preset')],
   // src/index.css: keep the @tailwind lines, remove the old :root/.dark variables, then add
@@ -138,11 +135,14 @@ const steps = {
   @import "${PKG}/tailwind/v4.css";`,
 };
 console.log(`
-Next: install the theme package
+Next: install the theme package and the icon set
   export NODE_AUTH_TOKEN=<GitHub token with read:packages>   (or: gh auth token)
   echo "//npm.pkg.github.com/:_authToken=\\\${NODE_AUTH_TOKEN}" >> ~/.npmrc   (once per machine)
-  npm i ${PKG}
-${stack ? `\nThen wire it (${stack === 'antd' ? 'Ant Design' : stack === 'tailwind4' ? 'Tailwind v4' : 'Tailwind v3 / shadcn'} detected):\n${steps[stack]}\n` : `\nThen wire it for your stack (see the repo README):\n${steps.antd}\n`}
+  npm i ${PKG} lucide-react
+
+Then wire it (${stack === 'tailwind4' ? 'Tailwind v4' : 'Tailwind v3'} + shadcn/ui):
+${steps[stack]}
+
 Update later: re-run this command, then npm update ${PKG}
-Moving from @rdthunderthailand/mw-theme? See MIGRATION.md in the design system repo.
+Upgrading from 0.x (Ant Design theme)? See MIGRATION.md in the design system repo.
 `);

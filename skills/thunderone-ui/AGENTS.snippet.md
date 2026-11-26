@@ -5,13 +5,12 @@ ThunderOne workspace: {{WORKSPACE}}
 Any UI work in this project MUST follow the `thunderone-ui` skill (`.agents/skills/thunderone-ui/SKILL.md`) and its Workspace profile `references/workspaces/{{WORKSPACE}}.md`. Read both before creating, editing or reviewing screens or components.
 
 Always-on rules:
-- Theme comes from `@rdthunderthailand/thunderone-theme`. Ant Design: `t1Theme` from `…/antd` in `<ConfigProvider>` plus `…/global.css`. Tailwind/shadcn: preset `…/tailwind/preset` (v3) or `…/tailwind/v4.css` (v4). Never write your own theme, never ship Ant Design's #1677FF, never use Tailwind's default palette or arbitrary hex classes.
-- No hardcoded colors, font sizes, radii or shadows. Use tokens.
-- Platform shell is fixed: sidebar 224px, header 69px, content padding 24px, card gap 12px, card radius 16px. Nav contents come from the Workspace profile.
-- Status colors only from status tokens, through the profile's status mapping. Never use status colors for categories or tags.
-- Font: Manrope. Brand/primary: #286EF9.
-- Icons: `@ant-design/icons` through `T1Icon` (`…/icons`) or the Workspace icon map. Logos: only the SVGs in `…/brand/`.
-- Every data surface has loading, empty and error states. Reuse existing components; if one is missing, say so.
-- Sentence case, 24h time, the Workspace's exact vocabulary.
+- Stack: shadcn/ui + Tailwind + `lucide-react`. Theme from `@rdthunderthailand/thunderone-theme` (`…/tailwind/v4.css`, or preset + `shadcn.css` on v3). Never write your own theme, never use stock shadcn colors, Tailwind's default palette or arbitrary values (`bg-[#…]`, `text-[13px]`).
+- Tokens only: `bg-primary`, `text-muted-foreground`, `rounded-xl`, `shadow-panel`, text styles like `text-title-page`. Light theme only.
+- App shell is fixed: sidebar 224 (rail 68, drawer 256), header 68, `main` px-6 py-5, Page actions row, Status bar at the bottom. Card gap 16, card radius 16. Sidebar menu comes from the Workspace profile.
+- Status: StatusBadge with five tones (success / warning / danger / info / neutral) via `statusTone()` and the profile map. Never use status colors for categories or tags.
+- Type: Manrope + Anuphan (Thai); set `lang` on `<html>`. Icons: lucide from the design-system set via `T1Icon` or the Workspace map. Logos: only the official SVGs.
+- Every data surface has loading, empty and error states (per card). Reuse `ui/*` and `design-system/*` components; if one is missing, say so.
+- Sentence case, 24h time, the Workspace's exact vocabulary. Must work at 1280×800.
 
 Design system repo: https://github.com/rdThunderThailand/-thunder-design-system

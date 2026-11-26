@@ -1,71 +1,169 @@
-/* ThunderOne — shadcn/ui theme for Tailwind v3 (Lovable default stack).
-   Paste below the @tailwind lines in src/index.css, replacing the old :root / .dark blocks.
+/* ThunderOne — shadcn/ui theme for Tailwind v3 (light).
+   First line of src/index.css, then the @tailwind lines. Delete the old :root / .dark blocks.
    GENERATED from skills/thunderone-ui/tokens.json by scripts/build.mjs. Do not edit by hand. */
 
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @layer base {
   :root {
+    --radius: 0.75rem;
     --background: 210 20% 98%; /* #F9FAFB */
-    --foreground: 220.9 39.3% 11%; /* #111827 */
+    --foreground: 220 44.4% 10.6%; /* #0F1727 */
     --card: 0 0% 100%; /* #FFFFFF */
-    --card-foreground: 220.9 39.3% 11%; /* #111827 */
+    --card-foreground: 229.1 84.6% 5.1%; /* #020618 */
     --popover: 0 0% 100%; /* #FFFFFF */
-    --popover-foreground: 220.9 39.3% 11%; /* #111827 */
+    --popover-foreground: 229.1 84.6% 5.1%; /* #020618 */
     --primary: 219.9 94.6% 56.7%; /* #286EF9 */
     --primary-foreground: 0 0% 100%; /* #FFFFFF */
-    --secondary: 220 14.3% 95.9%; /* #F3F4F6 */
-    --secondary-foreground: 220.9 39.3% 11%; /* #111827 */
-    --muted: 220 14.3% 95.9%; /* #F3F4F6 */
-    --muted-foreground: 216.9 19.1% 26.7%; /* #374151 */
-    --accent: 210 100% 95.7%; /* #E9F4FF */
-    --accent-foreground: 219 95.6% 44.5%; /* #0551DE */
-    --destructive: 0 84.2% 60.2%; /* #EF4444 */
-    --destructive-foreground: 0 0% 100%; /* #FFFFFF */
-    --border: 220 13% 91%; /* #E5E7EB */
-    --input: 216 12.2% 83.9%; /* #D1D5DB */
-    --ring: 219 95.8% 37.5%; /* #0444BB */
+    --primary-soft: 210 100% 95.7%; /* #E9F4FF */
+    --secondary: 210 40% 96.1%; /* #F1F5F9 */
+    --secondary-foreground: 222.9 48.3% 11.4%; /* #0F172B */
+    --muted: 214.3 30.4% 95.5%; /* #F0F3F7 */
+    --muted-foreground: 217.8 13% 40.6%; /* #5A6475 */
+    --accent: 210 40% 96.1%; /* #F1F5F9 */
+    --accent-foreground: 222.9 48.3% 11.4%; /* #0F172B */
+    --destructive: 357.1 100% 45.3%; /* #E7000B */
+    --destructive-foreground: 210 40% 98%; /* #F8FAFC */
+    --border: 212.3 22.8% 88.8%; /* #DCE2E9 */
+    --border-subtle: 220 24.3% 92.7%; /* #E8EBF1 */
+    --input: 212.3 22.8% 88.8%; /* #DCE2E9 */
+    --ring: 215.1 22.7% 64.5%; /* #90A1B9 */
+    --success: 145 83.2% 35.1%; /* #0FA44D */
+    --success-soft: 129.2 72.2% 92.9%; /* #E0FAE4 */
+    --warning: 34.5 100% 44.7%; /* #E48300 */
+    --warning-soft: 41.9 100% 91.6%; /* #FFF2D4 */
+    --danger: 357.1 100% 45.3%; /* #E7000B */
+    --danger-soft: 7.2 100% 95.1%; /* #FFE9E6 */
+    --danger-foreground: 0 0% 100%; /* #FFFFFF */
+    --info: 201.2 100% 40.6%; /* #0086CF */
+    --info-soft: 197.8 100% 94.7%; /* #E4F7FF */
+    --surface-subtle: 210 25% 96.9%; /* #F5F7F9 */
+    --surface-raised: 0 0% 100%; /* #FFFFFF */
+    --overlay: 222 62.5% 3.1%; /* #03060D */
+    --program: 213.6 100% 14.7%; /* #00214B */
+    --brand-navy: 219 95.2% 8.2%; /* #010F29 */
+    --chart-1: 17.9 100% 48%; /* #F54900 */
+    --chart-2: 174.8 100% 29.4%; /* #009689 */
+    --chart-3: 195.7 72.4% 22.7%; /* #104E64 */
+    --chart-4: 43.5 100% 50%; /* #FFB900 */
+    --chart-5: 36.4 100% 49.8%; /* #FE9A00 */
     --sidebar-background: 0 0% 100%; /* #FFFFFF */
-    --sidebar-foreground: 216.9 19.1% 26.7%; /* #374151 */
-    --sidebar-primary: 219.9 94.6% 56.7%; /* #286EF9 */
-    --sidebar-primary-foreground: 0 0% 100%; /* #FFFFFF */
-    --sidebar-accent: 210 100% 95.7%; /* #E9F4FF */
-    --sidebar-accent-foreground: 219.9 94.6% 56.7%; /* #286EF9 */
-    --sidebar-border: 220 13% 91%; /* #E5E7EB */
-    --sidebar-ring: 219 95.8% 37.5%; /* #0444BB */
-    --success: 160.1 84.1% 39.4%; /* #10B981 */
-    --success-foreground: 0 0% 100%; /* #FFFFFF */
-    --success-muted: 151.8 81% 95.9%; /* #ECFDF5 */
-    --warning: 37.7 92.1% 50.2%; /* #F59E0B */
-    --warning-foreground: 220.9 39.3% 11%; /* #111827 */
-    --warning-muted: 48 100% 96.1%; /* #FFFBEB */
-    --error: 0 84.2% 60.2%; /* #EF4444 */
-    --error-foreground: 0 0% 100%; /* #FFFFFF */
-    --error-muted: 0 85.7% 97.3%; /* #FEF2F2 */
-    --info: 219.9 94.6% 56.7%; /* #286EF9 */
-    --info-foreground: 0 0% 100%; /* #FFFFFF */
-    --info-muted: 219.4 94.1% 93.3%; /* #DEE9FE */
-    --in-progress: 258.3 89.5% 66.3%; /* #8B5CF6 */
-    --in-progress-muted: 250 100% 97.6%; /* #F5F3FF */
-    --radius: 12px;
+    --sidebar-foreground: 229.1 84.6% 5.1%; /* #020618 */
+    --sidebar-primary: 222.9 48.3% 11.4%; /* #0F172B */
+    --sidebar-primary-foreground: 210 40% 98%; /* #F8FAFC */
+    --sidebar-accent: 210 40% 96.1%; /* #F1F5F9 */
+    --sidebar-accent-foreground: 222.9 48.3% 11.4%; /* #0F172B */
+    --sidebar-border: 214.3 31.8% 91.4%; /* #E2E8F0 */
+    --sidebar-ring: 215.1 22.7% 64.5%; /* #90A1B9 */
+    --text-display-kpi: 24px;
+    --text-display-kpi--line-height: 32px;
+    --text-display-kpi--font-weight: 700;
+    --text-display-kpi--letter-spacing: 0em;
+    --text-title-page: 20px;
+    --text-title-page--line-height: 28px;
+    --text-title-page--font-weight: 800;
+    --text-title-page--letter-spacing: -0.025em;
+    --text-heading-large: 18px;
+    --text-heading-large--line-height: 28px;
+    --text-heading-large--font-weight: 700;
+    --text-heading-large--letter-spacing: 0em;
+    --text-heading-dialog: 18px;
+    --text-heading-dialog--line-height: 18px;
+    --text-heading-dialog--font-weight: 600;
+    --text-heading-dialog--letter-spacing: 0em;
+    --text-heading-section: 16px;
+    --text-heading-section--line-height: 24px;
+    --text-heading-section--font-weight: 700;
+    --text-heading-section--letter-spacing: 0em;
+    --text-title-card: 14px;
+    --text-title-card--line-height: 20px;
+    --text-title-card--font-weight: 700;
+    --text-title-card--letter-spacing: 0em;
+    --text-body: 14px;
+    --text-body--line-height: 20px;
+    --text-body--font-weight: 400;
+    --text-body--letter-spacing: 0em;
+    --text-body-sm: 12px;
+    --text-body-sm--line-height: 16px;
+    --text-body-sm--font-weight: 400;
+    --text-body-sm--letter-spacing: 0em;
+    --text-label-sm: 14px;
+    --text-label-sm--line-height: 20px;
+    --text-label-sm--font-weight: 600;
+    --text-label-sm--letter-spacing: 0em;
+    --text-label-xs: 12px;
+    --text-label-xs--line-height: 16px;
+    --text-label-xs--font-weight: 600;
+    --text-label-xs--letter-spacing: 0em;
+    --text-ui: 11px;
+    --text-ui--line-height: 16px;
+    --text-ui--font-weight: 400;
+    --text-ui--letter-spacing: 0em;
+    --text-caption-2xs: 10px;
+    --text-caption-2xs--line-height: 14px;
+    --text-caption-2xs--font-weight: 400;
+    --text-caption-2xs--letter-spacing: 0em;
+    --text-caption-9: 9px;
+    --text-caption-9--line-height: 13.5px;
+    --text-caption-9--font-weight: 400;
+    --text-caption-9--letter-spacing: 0em;
+    --text-caption-3xs: 8px;
+    --text-caption-3xs--line-height: 12px;
+    --text-caption-3xs--font-weight: 400;
+    --text-caption-3xs--letter-spacing: 0em;
+    --text-label-section: 11px;
+    --text-label-section--line-height: 16px;
+    --text-label-section--font-weight: 800;
+    --text-label-section--letter-spacing: 0.08em;
+    --text-label-type: 10px;
+    --text-label-type--line-height: 14px;
+    --text-label-type--font-weight: 700;
+    --text-label-type--letter-spacing: 0.08em;
     color-scheme: light;
+  }
+  :lang(th) {
+    --text-display-kpi--line-height: 36px;
+    --text-title-page--line-height: 32px;
+    --text-title-page--font-weight: 700;
+    --text-title-page--letter-spacing: 0em;
+    --text-heading-large--line-height: 32px;
+    --text-heading-dialog--line-height: 28px;
+    --text-heading-section--line-height: 28px;
+    --text-title-card--line-height: 24px;
+    --text-body--line-height: 24px;
+    --text-body-sm--line-height: 20px;
+    --text-label-sm--line-height: 24px;
+    --text-label-xs--line-height: 20px;
+    --text-ui--line-height: 20px;
+    --text-caption-2xs--line-height: 18px;
+    --text-caption-9--line-height: 16px;
+    --text-caption-3xs--line-height: 16px;
+    --text-label-section--line-height: 20px;
+    --text-label-section--font-weight: 700;
+    --text-label-section--letter-spacing: 0em;
+    --text-label-type--line-height: 18px;
+    --text-label-type--letter-spacing: 0em;
   }
   * { @apply border-border; }
   body { @apply bg-background text-foreground font-sans antialiased; }
-  .num, td, th { font-variant-numeric: tabular-nums; }
 }
 
 /* Scrollbars: thin, token-colored, everywhere */
-* { scrollbar-width: thin; scrollbar-color: hsl(var(--input)) transparent; }
+* { scrollbar-width: thin; scrollbar-color: hsl(var(--border)) transparent; }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
-::-webkit-scrollbar-thumb { background: hsl(var(--input)); border-radius: 9999px; border: 3px solid transparent; background-clip: padding-box; }
-::-webkit-scrollbar-thumb:hover { background: #9CA3AF; background-clip: padding-box; }
-/* Sidebar nav: scrollbar hidden until hover. Put .t1-scroll-quiet on the nav scroll area. (.mw-* = deprecated alias) */
-.t1-scroll-quiet, .mw-scroll-quiet { scrollbar-gutter: stable; scrollbar-color: transparent transparent; overscroll-behavior: contain; }
-.t1-scroll-quiet:hover, .t1-scroll-quiet:focus-within, .mw-scroll-quiet:hover, .mw-scroll-quiet:focus-within { scrollbar-color: hsl(var(--input)) transparent; }
-.t1-scroll-quiet::-webkit-scrollbar-thumb, .mw-scroll-quiet::-webkit-scrollbar-thumb { background: transparent; background-clip: padding-box; }
-.t1-scroll-quiet:hover::-webkit-scrollbar-thumb, .t1-scroll-quiet:focus-within::-webkit-scrollbar-thumb, .mw-scroll-quiet:hover::-webkit-scrollbar-thumb, .mw-scroll-quiet:focus-within::-webkit-scrollbar-thumb { background: hsl(var(--input)); background-clip: padding-box; }
+::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 9999px; border: 3px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); background-clip: padding-box; }
+/* Sidebar nav: scrollbar hidden until hover. Put .t1-scroll-quiet on the nav scroll area. */
+.t1-scroll-quiet { scrollbar-gutter: stable; scrollbar-color: transparent transparent; overscroll-behavior: contain; }
+.t1-scroll-quiet:hover, .t1-scroll-quiet:focus-within { scrollbar-color: hsl(var(--border)) transparent; }
+.t1-scroll-quiet::-webkit-scrollbar-thumb { background: transparent; background-clip: padding-box; }
+.t1-scroll-quiet:hover::-webkit-scrollbar-thumb, .t1-scroll-quiet:focus-within::-webkit-scrollbar-thumb { background: hsl(var(--border)); background-clip: padding-box; }
 /* Horizontal chip / segmented rows on phones: swipe, no visible scrollbar */
-.t1-scroll-x, .mw-scroll-x { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
-.t1-scroll-x::-webkit-scrollbar, .mw-scroll-x::-webkit-scrollbar { display: none; }
+.t1-scroll-x { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.t1-scroll-x::-webkit-scrollbar { display: none; }
+/* Numbers that line up */
+.t1-num, td, th { font-variant-numeric: tabular-nums; }
+/* Thai has no capitals: caps labels drop uppercase and tracking */
+:lang(th) .text-label-section, :lang(th) .text-label-type { text-transform: none; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
