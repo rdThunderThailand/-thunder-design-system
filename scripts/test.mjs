@@ -34,8 +34,8 @@ missing.length ? fail('SKILL.md references missing files: ' + missing.join(', ')
 const listed = (md.match(/Available: (.+)\./) || [, ''])[1].match(/`([a-z0-9-]+)`/g)?.map((k) => k.slice(1, -1)) || [];
 const noProfile = listed.filter((k) => !existsSync(join(SKILL, 'references/workspaces', k + '.md')));
 noProfile.length || !listed.length ? fail('Workspace profiles missing for: ' + (noProfile.join(', ') || '(none listed in SKILL.md)')) : ok(`Workspace profiles present (${listed.join(', ')})`);
-const DOMAIN = /\b(channels?|kiosks?|playlists?|programs?|now & next|PA \/ Audio|heartbeat)\b/i;
-const core = ['SKILL.md', 'AGENTS.snippet.md', 'references/components.md', 'references/patterns.md', 'references/icons.md', 'references/tailwind.md', 'references/review-checklist.md'];
+const DOMAIN = /\b(channels?|kiosks?|playlists?|programs?|now & next|PA \/ Audio|heartbeat|assignments?|inventory|warranty)\b/i;
+const core = ['SKILL.md', 'AGENTS.snippet.md', 'references/foundations.md', 'references/shell.md', 'references/components.md', 'references/patterns.md', 'references/icons.md', 'references/tailwind.md', 'references/review-checklist.md', 'references/brand.md'];
 const leaks = core.flatMap((f) => readFileSync(join(SKILL, f), 'utf8').split('\n').map((l, i) => [f, i + 1, l]).filter(([, , l]) => DOMAIN.test(l) && !/workspaces\/|e\.g\.|channel type, content type/i.test(l)).map(([f, n, l]) => `${f}:${n} ${l.trim().slice(0, 90)}`));
 leaks.length ? fail('Workspace-specific terms in core docs (move them to a Workspace profile):\n  ' + leaks.join('\n  ')) : ok('core docs are workspace-neutral');
 

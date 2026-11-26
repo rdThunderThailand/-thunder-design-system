@@ -1,36 +1,56 @@
 /**
- * Minimal wiring example for an Ant Design project in any ThunderOne Workspace.
- * Everything below <App> inherits the ThunderOne theme.
- * Workspace extras: import from '@rdthunderthailand/thunderone-theme/workspaces/<key>' (e.g. mediaStatus, MediaIcon).
+ * Minimal example for a shadcn/ui + Tailwind project in any ThunderOne Workspace.
+ * Prerequisites: the theme CSS is imported in the main stylesheet
+ *   @import "tailwindcss";
+ *   @import "@rdthunderthailand/thunderone-theme/tailwind/v4.css";
+ * and the shadcn components (Button, Badge, Card) exist in src/components/ui.
+ * Workspace extras: '@rdthunderthailand/thunderone-theme/workspaces/<key>' (e.g. mediaStatusTone, assetNav).
  */
-import { App, Badge, Button, ConfigProvider, Space } from 'antd';
-import { t1Status, t1Theme } from '@rdthunderthailand/thunderone-theme/antd';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { T1Icon } from '@rdthunderthailand/thunderone-theme/icons';
-import '@rdthunderthailand/thunderone-theme/global.css';
+import { statusTone, t1Status } from '@rdthunderthailand/thunderone-theme/status';
 
-function Example() {
-  const { message } = App.useApp();
+function StatusBadge({ status }: { status: string }) {
+  const s = t1Status[statusTone(status)];
   return (
-    <Space direction="vertical" size={12} style={{ padding: 24 }}>
-      <Badge status={t1Status.success.badge} text="Success" />
-      <Badge status={t1Status.warning.badge} text="Warning" />
-      <Badge status={t1Status.error.badge} text="Error" />
-      <Space>
-        <Button icon={<T1Icon.refresh />}>Refresh</Button>
-        <Button type="primary" icon={<T1Icon.create />} onClick={() => message.success('Created')}>
-          Create
-        </Button>
-      </Space>
-    </Space>
+    <Badge variant="outline" className={`gap-1.5 border-transparent ${s.badge}`}>
+      <span className={`size-1.5 rounded-full ${s.dot}`} aria-hidden />
+      {status.charAt(0).toUpperCase() + status.slice(1)}
+    </Badge>
   );
 }
 
-export default function Root() {
+export default function Example() {
   return (
-    <ConfigProvider theme={t1Theme}>
-      <App>
-        <Example />
-      </App>
-    </ConfigProvider>
+    <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-4 p-6">
+      <Card className="shadow-panel">
+        <CardHeader>
+          <CardTitle className="text-label-sm">Devices</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          <p className="text-display-kpi t1-num">206</p>
+          <div className="flex gap-2">
+            <StatusBadge status="online" />
+            <StatusBadge status="pending" />
+            <StatusBadge status="offline" />
+          </div>
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm">
+              <T1Icon.filter className="size-4" aria-hidden />
+              Filter
+            </Button>
+            <Button size="sm">
+              <T1Icon.create className="size-4" aria-hidden />
+              Create
+            </Button>
+            <Button variant="ghost" size="icon" aria-label="Notifications">
+              <T1Icon.notifications className="size-4" />
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

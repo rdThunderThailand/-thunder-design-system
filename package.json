@@ -1,6 +1,6 @@
 {
   "name": "thunder-design-system",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "private": true,
   "description": "ThunderOne design system: agent skill, theme package and setup CLI.",
   "type": "module",

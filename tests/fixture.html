@@ -1,24 +1,27 @@
 <div class="flex min-h-screen bg-background text-foreground font-sans">
-  <aside class="w-sidebar bg-sidebar border-r border-sidebar-border p-2 flex flex-col gap-1">
-    <div class="h-header flex items-center px-2 font-extrabold">Thunder One</div>
-    <p class="px-3 pt-3 text-[11px] font-bold uppercase tracking-wider text-sidebar-foreground">Channels</p>
-    <a class="h-nav flex items-center px-3 rounded-nav bg-sidebar-accent text-sidebar-accent-foreground font-semibold">All channels</a>
-    <a class="h-nav flex items-center px-3 rounded-nav text-sidebar-foreground hover:bg-muted">Screens</a>
-    <a class="h-nav flex items-center px-3 rounded-nav text-sidebar-foreground hover:bg-muted">Kiosks</a>
+  <aside class="w-sidebar bg-sidebar border-r border-border flex flex-col">
+    <div class="h-header flex items-center border-b border-border px-3 text-label-type uppercase text-muted-foreground">Workspace</div>
+    <nav class="t1-scroll-quiet flex flex-col gap-0.5 px-2 py-3">
+      <a class="h-10 flex items-center gap-3 px-3 rounded-lg bg-primary-soft text-primary text-sm font-semibold">Overview</a>
+      <p class="px-3 pb-1.5 pt-3 text-label-type uppercase text-muted-foreground">Group</p>
+      <a class="h-8 flex items-center gap-3 px-3 rounded-md text-xs font-medium text-sidebar-foreground hover:bg-sidebar-accent">Item</a>
+    </nav>
   </aside>
-  <main class="flex-1 p-6 flex flex-col gap-3">
-    <h1 class="text-page-title font-extrabold">All channels</h1>
-    <p class="text-sm text-muted-foreground">Every screen, TV, PA zone and kiosk you manage</p>
-    <div class="grid grid-cols-3 gap-3">
-      <div class="bg-card rounded-card border border-border shadow-panel p-4"><div class="text-xs font-semibold text-muted-foreground">Online</div><div class="text-kpi font-bold">11</div><span class="inline-flex items-center gap-1.5 rounded-pill bg-success-muted text-success px-2 py-0.5 text-xs font-bold"><i class="w-1.5 h-1.5 rounded-pill bg-success"></i>Online</span></div>
-      <div class="bg-card rounded-card border border-border shadow-panel p-4"><div class="text-xs font-semibold text-muted-foreground">Warning</div><div class="text-kpi font-bold">3</div><span class="inline-flex items-center gap-1.5 rounded-pill bg-warning-muted text-warning px-2 py-0.5 text-xs font-bold"><i class="w-1.5 h-1.5 rounded-pill bg-warning"></i>Warning</span></div>
-      <div class="bg-card rounded-card border border-border shadow-panel p-4"><div class="text-xs font-semibold text-muted-foreground">Offline</div><div class="text-kpi font-bold">2</div><span class="inline-flex items-center gap-1.5 rounded-pill bg-error-muted text-error px-2 py-0.5 text-xs font-bold"><i class="w-1.5 h-1.5 rounded-pill bg-error"></i>Offline</span></div>
+  <main class="flex-1 px-6 py-5 flex flex-col gap-3">
+    <h1 class="text-title-page truncate">Overview</h1>
+    <p class="text-body-sm text-muted-foreground">Subtitle</p>
+    <div class="grid grid-cols-3 gap-4">
+      <div class="bg-card rounded-xl border border-border shadow-panel p-4 hover:shadow-float">
+        <div class="text-label-section uppercase">Online</div>
+        <div class="text-display-kpi t1-num">11</div>
+        <span class="inline-flex items-center gap-1.5 rounded-md bg-success-soft text-success px-2.5 py-0.5 text-xs font-semibold"><i class="size-1.5 rounded-full bg-current"></i>Online</span>
+        <span class="rounded-md bg-warning-soft text-warning bg-danger-soft text-danger bg-info-soft text-info"></span>
+      </div>
+      <div class="bg-card rounded-xl border border-border-subtle shadow-dialog p-6 bg-chart-1 bg-brand-navy bg-overlay/60"></div>
     </div>
     <div class="flex gap-2">
-      <button class="h-control px-4 rounded-control bg-primary text-primary-foreground font-semibold hover:bg-primary/90">Add channel</button>
-      <button class="h-control px-4 rounded-control border border-input bg-card font-semibold">Refresh</button>
-      <input class="h-control px-3 rounded-control border border-input bg-card focus:outline-none focus:ring-2 focus:ring-ring" placeholder="Search channel">
-      <span class="self-center text-t1-blue-1100 font-bold">t1 primitive</span>
+      <button class="h-10 px-4 rounded-lg bg-primary text-primary-foreground text-label-sm hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring">Create</button>
+      <input class="h-9 px-3 rounded-md border border-input bg-transparent text-sm placeholder:text-muted-foreground max-w-search" placeholder="Search anything…">
     </div>
   </main>
 </div>

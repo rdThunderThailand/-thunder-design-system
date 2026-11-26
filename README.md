@@ -1,17 +1,17 @@
 # ThunderOne design system
 
-One source of truth for the UI of **every ThunderOne Workspace** (Media, Help, and the ones that come next), shared by every coding agent the team uses (Claude Code, Codex, Antigravity, Cursor, Lovable, the Claude app) and by the code itself.
+One source of truth for the UI of **every ThunderOne Workspace** (Media, Asset, Help, and the ones that come next), shared by every coding agent the team uses (Claude Code, Codex, Antigravity, Cursor, Lovable, the Claude app) and by the code itself.
 
 | Part | Path | Used by |
 |---|---|---|
-| Agent skill `thunderone-ui` | `skills/thunderone-ui/` | Agents: core rules (DS-xx), shell, components, icons, brand, review checklist |
+| Agent skill `thunderone-ui` | `skills/thunderone-ui/` | Agents: core rules (DS-xx), foundations, shell, components, icons, brand, review checklist |
 | Workspace profiles | `skills/thunderone-ui/references/workspaces/` | Agents: per-Workspace vocabulary, nav, status mapping, icons, pages |
-| Theme package `@rdthunderthailand/thunderone-theme` | `packages/thunderone-theme/` | Code: Ant Design theme, Tailwind v3/v4 + shadcn theme, platform icons, tokens, logos, Workspace extras |
+| Theme package `@rdthunderthailand/thunderone-theme` | `packages/thunderone-theme/` | Code: Tailwind v4/v3 + shadcn/ui theme, lucide icon map, status tones, tokens, logos, Workspace extras |
 | Setup CLI | `bin/setup.mjs` | People: one command per project |
 | Design tokens | `skills/thunderone-ui/tokens.json` | Everything above is generated from this file |
 | Product workflow skills | `skills/spec-design-conformance/`, `skills/figjam-read-via-chrome/`, `skills/workspace-design-dev-plan/` | Agents: PO / UX / Dev work around the design (see below). Not part of the UI core |
 
-Token values were first extracted from Figma **Rev.2 - Media Workspace**, the first Workspace built on this system.
+Design source: Figma **"[DS] - Design System"** (`kW5RDAy0BZ4Muj9RU3dPgC`), "Design System Thunder One — v2 (Lovable)", built from the Lovable code (Tailwind v4 + shadcn/ui new-york). Stack: **shadcn/ui + Tailwind + lucide-react**. Ant Design is no longer supported (1.0).
 
 ## How it is organized
 
@@ -21,14 +21,14 @@ core (every Workspace)                 Workspace profile (one per Workspace)
 tokens.json, theme package             vocabulary, nav groups and order
 platform shell (sidebar, header)       status mapping → semantic status tokens
 platform components and states         icon map for domain concepts
-platform icons (T1Icon)                page layouts, table column drop order
+platform icons (T1Icon, lucide)        page layouts, table column drop order
 copy, language, accessibility rules    domain components
-review checklist (DS-01 … DS-14)       open items
+review checklist (DS-01 … DS-16)       open items
 ```
 
 A profile adds detail. It never overrides a core rule.
 
-Profiles today: `media` (Media Workspace), `help` (Help, a platform utility). New one: copy `references/workspaces/_template.md`.
+Profiles today: `media` (Media Workspace), `asset` (Asset Workspace), `help` (Help, a platform utility). New one: copy `references/workspaces/_template.md`.
 
 ## Use it in a project
 
@@ -43,7 +43,7 @@ echo "//npm.pkg.github.com/:_authToken=YOUR_TOKEN" >> ~/.npmrc
 ### 2. In the project root
 
 ```bash
-npx github:rdThunderThailand/-thunder-design-system --workspace media   # or help, …
+npx github:rdThunderThailand/-thunder-design-system --workspace media   # or asset, help, …
 ```
 
 This will:
@@ -51,26 +51,24 @@ This will:
 - make `CLAUDE.md` import `AGENTS.md`
 - install the skill into `.agents/skills/` for Claude Code, Codex and Antigravity (telemetry off)
 - map the `@rdthunderthailand` scope to GitHub Packages in `.npmrc`
-- print the wiring for your stack (Ant Design or Tailwind is detected from `package.json`)
+- print the wiring for your stack (Tailwind v4 or v3, detected from `package.json`)
 
-Options: `--workspace <key>` · `--agents claude-code,codex,antigravity,cursor` · `--stack antd|tailwind|tailwind4` · `--no-skill` · `--no-agents-md` · `--no-npmrc` · `--dry-run`
+Options: `--workspace <key>` · `--agents claude-code,codex,antigravity,cursor` · `--stack tailwind4|tailwind` · `--no-skill` · `--no-agents-md` · `--no-npmrc` · `--dry-run`
 
 ### 3. Install and wire the theme
 
 ```bash
-npm i @rdthunderthailand/thunderone-theme
+npm i @rdthunderthailand/thunderone-theme lucide-react
 ```
 
-**Ant Design**
-```tsx
-import { ConfigProvider, App } from 'antd';
-import { t1Theme } from '@rdthunderthailand/thunderone-theme/antd';
-import '@rdthunderthailand/thunderone-theme/global.css';
-
-<ConfigProvider theme={t1Theme}><App>{/* app */}</App></ConfigProvider>
+**Tailwind v4 (Lovable today)**
+```css
+@import "tailwindcss";
+@import "@rdthunderthailand/thunderone-theme/tailwind/v4.css";
+/* delete the project's own :root / .dark / @theme color blocks */
 ```
 
-**Tailwind v3 / shadcn (Lovable)**
+**Tailwind v3**
 ```js
 // tailwind.config.ts
 presets: [require('@rdthunderthailand/thunderone-theme/tailwind/preset')]
@@ -80,15 +78,12 @@ presets: [require('@rdthunderthailand/thunderone-theme/tailwind/preset')]
 @import '@rdthunderthailand/thunderone-theme/tailwind/shadcn.css';
 ```
 
-**Tailwind v4**
-```css
-@import "tailwindcss";
-@import "@rdthunderthailand/thunderone-theme/tailwind/v4.css";
-```
-
-**Workspace extras**
+**Icons, status, Workspace extras**
 ```ts
-import { mediaStatus, MediaIcon, channelTypeIcon } from '@rdthunderthailand/thunderone-theme/workspaces/media';
+import { T1Icon } from '@rdthunderthailand/thunderone-theme/icons';
+import { statusTone, t1Status } from '@rdthunderthailand/thunderone-theme/status';
+import { mediaStatusTone, channelTypeIcon } from '@rdthunderthailand/thunderone-theme/workspaces/media';
+import { assetNav, AssetIcon } from '@rdthunderthailand/thunderone-theme/workspaces/asset';
 ```
 
 ### Tools without a terminal
@@ -105,7 +100,7 @@ npx github:rdThunderThailand/-thunder-design-system   # refreshes AGENTS.md sect
 npm update @rdthunderthailand/thunderone-theme
 ```
 
-Coming from `@rdthunderthailand/mw-theme` / `media-workspace-ui`: see [MIGRATION.md](MIGRATION.md).
+Upgrading from 0.x (Ant Design theme, `--t1-*` variables) or from `mw-theme`: see [MIGRATION.md](MIGRATION.md).
 
 ## Product workflow skills
 
@@ -139,12 +134,12 @@ They follow the ThunderOne Product Development Playbook v1.1 and the Roles, DoD 
 4. Open a PR. CI builds the package, compiles Tailwind v3 and v4, and runs the setup CLI in a fresh project.
 5. Release: bump `packages/thunderone-theme/package.json` version, merge, then `git tag vX.Y.Z && git push origin vX.Y.Z`. The release workflow publishes the package and attaches `thunderone-ui.zip`.
 
-Hand-written: `packages/thunderone-theme/src/antd.ts` (token → antd mapping), `src/icons.tsx` (platform icon map), `src/workspaces/*` (Workspace extras). Everything else in `packages/thunderone-theme/src` and `skills/thunderone-ui/assets/code` is generated.
+Hand-written: `packages/thunderone-theme/src/status.ts` (status tones), `src/icons.tsx` (platform icon map), `src/workspaces/*` (Workspace extras). Everything else in `packages/thunderone-theme/src` and `skills/thunderone-ui/assets/code` is generated.
 
 ## Reviews and QC
 
-Every core rule has an ID (DS-01 … DS-14) and every open design question has one (OD-01 …). `skills/thunderone-ui/references/review-checklist.md` lists what to check, with P0/P1/P2 severity, so QC reports can cite design-system rules the same way they cite UC/AC IDs in the Product Specification.
+Every core rule has an ID (DS-01 … DS-16; DS-09 retired) and every open design question has one (OD-01 …). `skills/thunderone-ui/references/review-checklist.md` lists what to check, with P0/P1/P2 severity, so QC reports can cite design-system rules the same way they cite UC/AC IDs in the Product Specification.
 
 ## Open design decisions
 
-See `skills/thunderone-ui/references/open-decisions.md`. Agents follow `tokens.json` until design decides. Notable: OD-05, no Thai typeface yet (blocking for TH content).
+See `skills/thunderone-ui/references/open-decisions.md`. Agents follow `tokens.json` until design decides. Notable: OD-07 dark mode not approved, OD-08 checkbox radius, OD-09 margin at 1024.

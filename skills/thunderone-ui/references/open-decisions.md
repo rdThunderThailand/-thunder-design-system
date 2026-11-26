@@ -2,34 +2,38 @@
 
 Until design decides, agents follow `tokens.json` and mention the decision ID in their reply (DS-14).
 A review that finds one of these on a screen reports it as **Decision needed**, not as a defect.
+Each open item has a matching comment tagged `[DS 1.0 sync]` in the Figma [DS] file; close the OD here when the comment is resolved.
+IDs are never reused. Resolved items stay listed so old QC reports still resolve.
 
-## OD-01 Media approved screen does not use the semantic tokens
-The approved screen "MW-01 Overview / 1920w light" (imported from a Lovable build) does not use the tokens on the "Semantic Colors" page.
+## Resolved in 1.0 (Figma "[DS] - Design System" v2)
 
-| Role | Semantic token (official) | Used on approved screen |
+| ID | Was | Resolution |
 |---|---|---|
-| Primary text | text/primary `#111827` | `#0F1727` |
-| Secondary text | text/secondary `#374151` | `#5A6475` |
-| Default border | border/default `#D1D5DB` | `#DCE2E9` |
-| Muted background | bg/primary-strong `#F3F4F6` | `#F0F3F7` |
-| Success / online | status/success `#10B981` | `#0FA44D` (bg `#E0FAE4`) |
-| Warning | status/warning `#F59E0B` | `#E48300` (bg `#FFF2D4`) |
-| Error / offline | status/error `#EF4444` | `#F21823` (bg `#FFE9E6`) |
-| Brand | bg/brand, action/primary `#286EF9` | `#286EF9` ✅ match |
-| Nav active bg | action/subdued-menu `#E9F4FF` | `#E9F4FF` ✅ match |
+| OD-01 | Approved Media screen did not use the semantic tokens | The design system now uses the values from the Lovable code (`foreground` #0F1727, `border` #DCE2E9, `success` #0FA44D …). The old "Semantic Colors" page values are retired. |
+| OD-02 | Brand blue #286EF9 not in the primitive ramp | Decision 2026-11-13: UI primary stays #286EF9; logo blues stay in the logo files; no primitive ramp is shipped. |
+| OD-03 | Type scale not confirmed | 12 Manrope text styles + extra label/caption styles in Figma (`foundations.md`). |
+| OD-04 | Icon maps not signed off (Ant Design) | Library is now lucide, from the Figma Icons page. Workspace icons that Figma marks as assumptions are flagged in each profile. |
+| OD-05 | No Thai typeface | **Anuphan**, decided 2026-11-22, with Thai line heights per style. |
 
-## OD-02 Brand blue is not in the primitive ramp
-`#286EF9` (brand/action primary) is not in the Blue primitive ramp (blue/500 = `#0C60FA`). Either add it to the ramp or point the semantic token at blue/500.
-Also: the "Components Overview" page in Figma uses the stock Ant Design theme (`#1677FF`, SF Pro, radius 6). It is not the company theme. Figma layer typo `action/subdud*` should be `action/subdued*` (tokens.json uses the corrected name).
+## Resolved 2026-11-26 (design replies to the `[DS 1.0 sync]` comments)
 
-## OD-03 Type scale not confirmed
-Font sizes on the approved Media screen (8–11px body text) look like a scaled-down capture. Only Label/Large/Regular is confirmed. Confirm the full scale against the Figma text styles (Display / Heading / Body / Label / Caption / Overline) before shipping.
-
-## OD-04 Icon maps not signed off
-The platform map (`icons.md`) and every Workspace map are proposals built from the Ant Design set in Figma. Design has not signed them off.
-
-## OD-05 No Thai typeface (blocking for TH content)
-Manrope has no Thai glyphs, so Thai text currently falls back to whatever the OS provides (`system-ui`), which differs per device. Every Workspace that ships TH (Help requires TH and EN) needs a decision: a Thai companion face in `font.family.sans`, with weights matching 400–800, plus line-height checks for Thai vowels and tone marks.
+| ID | Was | Resolution |
+|---|---|---|
+| OD-08 | Checkbox radius 8px renders round | Square with **4px** corners, all variants. Literal `rounded-[4px]` (no `radius/xs` token; adding one is a separate major decision). |
+| OD-11 | No input error state | `State=Error` = `border-destructive` + `aria-invalid="true"`. Message = sibling **Form/Error text**: Body/Small 12px, `text-destructive`, optional leading icon. Same for Textarea and Select (`components.md`). |
+| OD-12 | Two reds | Keep both names; both are **#E7000B** (the only red passing 4.5:1 with white text, 4.77:1). `danger-soft` / `danger-foreground` unchanged. |
+| OD-13 | Icon set gaps | Added `pencil`, `trash-2`, `refresh-cw`, `external-link`, `cloud-upload`, `lightbulb`, `arrow-right` and Help `book-open`, `wrench`, `file-text`, `life-buoy`. No language-switch icon (no language switch in MVP). |
+| OD-14 | StatusBadge tones vs 0.x | Five tones, `rounded-md` (no pill). `scheduled`, `processing`, `in-progress` = **info**, told apart by icon + label. Purple in-progress deprecated. |
 
 ## OD-06 Public page shell
-Platform pages that work without a session and have no sidebar (Help Center Home, Search, Article) are not specified in the design system: header content for signed-out visitors, max reading width, and article typography.
+Platform pages that work without a session and have no sidebar (Help Center Home, Search, Article) are not specified: header content for signed-out visitors, reading width (use `max-w-measure` 720 meanwhile) and article typography.
+
+## OD-07 Dark mode not approved
+Figma has dark values for every color, marked "untuned shadcn default — NOT approved, not published". Ship light only (DS-06). `tokens.json` does not carry the dark values until design tunes them.
+
+## OD-09 Content margin at 1024
+The Grid standard (2026-11-22) says margin 16 and gutter 12 at 1024; the App shell code uses `px-6` (24) from 640 up. Follow the Grid standard for new layouts (`lg:px-4 xl:px-6` is not in code yet) and mention OD-09.
+
+## OD-10 Literal sizes in the Lovable code
+Decided 2026-11-26, code still to change: sidebar group label `text-[9px]` → 10px Label/Type label; Button sm icons 14/12 → 16; search kbd stays a literal 4px (`rounded-[4px]`); the user chip becomes a button with a menu of Account and Sign out only (no language switch); collapsed nav items get Tooltip + `aria-label`, the collapse toggle gets `aria-expanded`. Still open: activity tile radius 4px and the dashboard thumbnail title at 20 Bold (no such style). Whether to add a `radius/xs` (4px) token is a separate major decision.
+

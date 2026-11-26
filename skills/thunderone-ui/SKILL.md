@@ -1,119 +1,94 @@
 ---
 name: thunderone-ui
-description: Use when building, editing or reviewing any screen, component or page of a ThunderOne product, in any Workspace (Media, Help, or a new one). Enforces the company design system (tokens, app shell, components, icons, brand, copy) and loads the matching Workspace profile for domain vocabulary, icons and status mapping.
+description: Use when building, editing or reviewing any screen, component or page of a ThunderOne product, in any Workspace (Media, Asset, Help, or a new one). Enforces the company design system (shadcn/ui + Tailwind tokens, app shell, components, lucide icons, Manrope/Anuphan type, brand, copy) and loads the matching Workspace profile for domain vocabulary, navigation, icons and status mapping.
 ---
 
 # ThunderOne UI
 
-One design system for every ThunderOne Workspace. The core below applies everywhere. Domain detail lives in a **Workspace profile**.
+One design system for every ThunderOne Workspace. Stack: **shadcn/ui + Tailwind (v4) + lucide-react**, built from the Lovable code.
+Design source: Figma **"[DS] - Design System"** (`kW5RDAy0BZ4Muj9RU3dPgC`). The core below applies everywhere. Domain detail lives in a **Workspace profile**.
 
 ## Step 0: pick the Workspace profile
 
 1. Find the Workspace this work belongs to: the project's `AGENTS.md` line `ThunderOne workspace: <key>`, the user's request, or the product docs.
-2. Read `references/workspaces/<key>.md`. Available: `media`, `help`.
+2. Read `references/workspaces/<key>.md`. Available: `media`, `asset`, `help`.
 3. No profile for that Workspace? Use the core only, say so in your reply, and copy `references/workspaces/_template.md` if the user wants one. Never borrow another Workspace's vocabulary, nav items, icons or status mapping.
 4. A profile can add detail. It can never override a core rule (DS-xx). If it seems to, follow the core and report the conflict.
 
 ## Core rules (non-negotiable)
 
-Each rule has an ID so reviews can cite it.
+Each rule has an ID so reviews can cite it. Retired IDs are never reused.
 
-- **DS-01 Tokens only.** Never hardcode colors, font sizes, radii or shadows. Use `tokens.json` (CSS variables `--t1-*`, Tailwind/antd theme from the package).
-- **DS-02 Theme from the package.** Use `@rdthunderthailand/thunderone-theme`. Never ship the stock Ant Design `#1677FF` theme, the Tailwind default palette or arbitrary hex classes.
-- **DS-03 Platform shell.** Reuse the app shell (sidebar + header) exactly as specified below. Do not invent new navigation. Nav **contents** come from the Workspace profile.
-- **DS-04 Status system.** Every state uses `status.*` tokens (success / warning / error / info / in-progress) through the profile's mapping. Never color-code status ad hoc, and never use status colors for taxonomy (categories, types, tags).
-- **DS-05 Spacing.** 4px scale. Allowed gaps: 4, 8, 12, 16, 24. Default gap between cards is **12px**.
-- **DS-06 Light theme first.** Add dark mode only when dark tokens exist in `tokens.json`.
-- **DS-07 Typography.** Font is **Manrope** for Latin text. Never fall back to Inter, SF Pro or the Ant Design default. Thai text: see `references/open-decisions.md` (OD-05).
-- **DS-08 Reuse components.** If a component exists in the shared library, import it. If one is missing, name it in your reply instead of inventing a new style.
-- **DS-09 Icons.** Only `@ant-design/icons`, Outlined by default, through `T1Icon` (platform) or the profile's icon map. See `references/icons.md`.
-- **DS-10 Brand.** Logos only from the SVGs in `assets/brand/`. Follow `references/brand.md`. Never recolor, stretch or retype the wordmark.
-- **DS-11 States.** Every data surface has loading (skeleton), empty, and error-with-retry states. Never show an empty or error state while still loading.
-- **DS-12 Copy.** Sentence case, 24h time, UI terms exactly as the Workspace's approved UI and profile vocabulary. See `references/patterns.md`.
-- **DS-13 Accessibility.** Visible focus (`border.focus`), hit height ≥ 32px, `aria-label` on icon-only buttons.
+- **DS-01 Tokens only.** Never hardcode colors, font sizes, radii or shadows. Use the theme classes (`bg-primary`, `text-muted-foreground`, `rounded-xl`, `shadow-panel`, `text-title-page`). Values live in `tokens.json`.
+- **DS-02 Theme from the package.** Use `@rdthunderthailand/thunderone-theme`. Never ship stock shadcn colors (zinc/slate), the Tailwind default palette (`bg-blue-500`, `text-gray-600`) or arbitrary values (`bg-[#…]`, `text-[13px]`). Only exception: `rounded-[4px]` on checkbox and kbd.
+- **DS-03 Platform shell.** Use the App shell exactly as in `references/shell.md`: Sidebar (Menu slot) + Top header + Page actions + content + Status bar. Do not invent new navigation. Menu **contents** come from the Workspace profile.
+- **DS-04 Status system.** Every state uses one of five tones (success / warning / danger / info / neutral) through the core map or the profile's mapping. Never color-code status ad hoc, and never use status colors for taxonomy (categories, types, tags).
+- **DS-05 Spacing.** Tailwind 4px scale only. Card gap is **16** everywhere (between cards in a row, between wrapped rows, between stacked cards). Content padding 24 / 20 top.
+- **DS-06 Light theme only.** Dark values exist in Figma but are not approved (OD-07). Do not ship dark mode; delete shadcn's `.dark` block.
+- **DS-07 Typography.** Manrope for Latin, **Anuphan** for Thai, through the text-style classes (`text-title-page`, `text-body`, `text-label-xs` …). Thai gets taller line heights automatically under `lang="th"`. Never Inter, SF Pro or the shadcn default.
+- **DS-08 Reuse components.** Use the shadcn components in `src/components/ui/*` and the shared `design-system/*` components (`references/components.md`). If one is missing, name it in your reply instead of inventing a style.
+- **DS-09** *Retired in 1.0* (was: Ant Design icons). See DS-15.
+- **DS-10 Brand.** Logos only from the official SVGs (`assets/brand/`). Follow `references/brand.md`. Never redraw, recolor, stretch or retype the wordmark.
+- **DS-11 States.** Every data surface has loading (skeleton), empty, and error-with-retry states, at card level so one card can fail without blanking the page. Never show empty or error while loading.
+- **DS-12 Copy.** Sentence case, 24h time, UI terms exactly as the Workspace profile. See `references/patterns.md`.
+- **DS-13 Accessibility.** Visible focus ring (`ring-ring`), hit height ≥ 32, `aria-label` on icon-only buttons and on collapsed sidebar items.
 - **DS-14 Disputed values.** If a value is listed in `references/open-decisions.md`, use the `tokens.json` value and mention the open decision in your reply.
+- **DS-15 Icons.** `lucide-react` only, from the Figma icon set (`references/icons.md`), through `T1Icon` or the profile's icon map. Size 16 by default (`size-4`), stroke 2. No other icon library.
+- **DS-16 Responsive standard.** Design at 1920; 1280×800 must fully work. Content is fluid (no max-width container). Follow the breakpoint table in `references/foundations.md`.
 
-## Token quick reference
+## Token quick reference (Tailwind class → value)
 
-| Use | Token | Value |
+| Use | Class | Value |
 |---|---|---|
-| App background | `color.bg.primary` | #F9FAFB |
-| Card / sidebar surface | `color.surface.default` | #FFFFFF |
-| Muted fill (segmented track, icon box) | `color.bg.primary-strong` | #F3F4F6 |
-| Primary / secondary / muted text | `color.text.primary / secondary / tertiary` | #111827 / #374151 / #9CA3AF |
-| Borders | `color.border.default` | #D1D5DB |
-| Brand, primary button, active nav text | `color.action.primary` | #286EF9 (hover #0551DE, pressed #0444BB) |
-| Active nav background | `color.action.subdued-menu` | #E9F4FF |
-| Focus ring | `color.border.focus` | #0444BB |
-| Success | `color.status.success` (+ `-bg`) | #10B981 / #ECFDF5 |
-| Warning | `color.status.warning` (+ `-bg`) | #F59E0B / #FFFBEB |
-| Error | `color.status.error` (+ `-bg`) | #EF4444 / #FEF2F2 |
-| Info / In progress | `color.status.info`, `status.in-progress` | #286EF9 / #8B5CF6 |
-| Card radius | `radius.xl` | 16px |
-| Input, search, icon box, primary nav | `radius.lg` | 12px |
-| Nav item, segmented item | `radius.md` | 10px |
-| Badges and tags | `radius.pill` | 9999px |
-| Card shadow | `shadow.card` | 0 1px 2px rgba(15,23,39,.04) |
+| App background | `bg-background` | #F9FAFB |
+| Card / popover / sidebar surface | `bg-card` / `bg-popover` / `bg-sidebar` | #FFFFFF |
+| Text / muted text | `text-foreground` / `text-muted-foreground` | #0F1727 / #5A6475 |
+| Muted fill (tabs track, icon tile, skeleton row) | `bg-muted` | #F0F3F7 |
+| Border / input border / subtle divider | `border-border` / `border-input` / `border-border-subtle` | #DCE2E9 / #DCE2E9 / #E8EBF1 |
+| Brand, primary button, active nav text | `bg-primary` / `text-primary` | #286EF9 |
+| Active nav background, soft brand fill | `bg-primary-soft` | #E9F4FF |
+| Focus ring | `ring-ring` | #90A1B9 |
+| Success / warning / danger / info | `text-success` + `bg-success-soft` … | #0FA44D / #E48300 / #E7000B / #0086CF |
+| Destructive button, form error | `bg-destructive` / `border-destructive` | #E7000B (same red as `danger`) |
+| Modal scrim | `bg-overlay/60` | #03060D |
+| Radius: badge, input, nav item / button, icon tile / card | `rounded-md` / `rounded-lg` / `rounded-xl` | 10 / 12 / 16 |
+| Shadow: card / popover, toast, hover / dialog | `shadow-panel` / `shadow-float` / `shadow-dialog` | 4% / 12% / 18% |
+| Shell sizes | `w-sidebar` `w-sidebar-collapsed` `h-header` | 224 / 68 / 68 |
+
+Full tables (charts, sidebar vars, type scale, grid): `references/foundations.md`.
 
 ## Theme: install the package, never write your own
 
-Check `package.json`. If `@rdthunderthailand/thunderone-theme` is missing, install it (the project's `.npmrc` must map `@rdthunderthailand` to `https://npm.pkg.github.com`).
+Check `package.json`. If `@rdthunderthailand/thunderone-theme` is missing, install it with `lucide-react` (the project's `.npmrc` must map `@rdthunderthailand` to `https://npm.pkg.github.com`).
 
-| Stack | Wire it at the app root |
+| Stack | Wire it |
 |---|---|
-| **Ant Design v5** | `import { t1Theme } from '@rdthunderthailand/thunderone-theme/antd'` → `<ConfigProvider theme={t1Theme}><App>…</App></ConfigProvider>`, plus `import '@rdthunderthailand/thunderone-theme/global.css'` |
-| **Tailwind v3 / shadcn** (Lovable default) | `presets: [require('@rdthunderthailand/thunderone-theme/tailwind/preset')]` + `@import '@rdthunderthailand/thunderone-theme/tailwind/shadcn.css'` at the top of `src/index.css`. See `references/tailwind.md` |
-| **Tailwind v4** | `@import "tailwindcss";` then `@import "@rdthunderthailand/thunderone-theme/tailwind/v4.css";` |
+| **Tailwind v4** (Lovable today) | Main CSS: `@import "tailwindcss";` then `@import "@rdthunderthailand/thunderone-theme/tailwind/v4.css";`. Delete the project's own `:root` / `.dark` / `@theme` color blocks. |
+| **Tailwind v3** (older projects) | `presets: [require('@rdthunderthailand/thunderone-theme/tailwind/preset')]` + `@import '@rdthunderthailand/thunderone-theme/tailwind/shadcn.css';` first in `src/index.css`. |
 
 | Import | Contents |
 |---|---|
-| `…/antd` | `t1Theme`, `t1Status` (semantic status → antd Badge + colors), `t1Tokens` |
-| `…/icons` | `T1Icon`: platform concept → icon map |
-| `…/workspaces/<key>` | Workspace extras, e.g. `…/workspaces/media`: `mediaStatus`, `MediaIcon`, `channelTypeIcon` |
-| `…/tokens` | `t1Tokens`: raw values for charts and custom CSS |
-| `…/global.css` | Manrope, `--t1-*` variables, scrollbars, `.t1-scroll-quiet`, `.t1-scroll-x` |
+| `…/icons` | `T1Icon` (platform concept → lucide icon), `t1IconSize` |
+| `…/status` | `statusTone(state, extra?)`, `t1Status` (tone → badge classes + colors) |
+| `…/tokens` | `t1Tokens`: raw values for charts and canvas |
+| `…/workspaces/<key>` | Workspace extras, e.g. `…/workspaces/media`: `mediaNav`, `mediaStatusTone`, `channelTypeIcon`; `…/workspaces/asset`: `assetNav`, `AssetIcon` |
 | `…/brand/*.svg` | ThunderOne logos |
 
-**Can't install packages** (Lovable without registry access, a quick prototype): copy the same files from `assets/code/`. They are identical copies, synced automatically.
+**Can't install packages** (Lovable without registry access, a quick prototype): copy the same files from `assets/code/`. They are identical copies, synced automatically. Setup details: `references/tailwind.md`.
 
 **Changing a token:** edit `tokens.json` in the design system repo, run `npm run build:tokens`, commit and release. Never edit generated files or the copies in a project.
 
-## Platform shell (desktop 1920w)
+## Shell at a glance (details: `references/shell.md`)
 
 | Region | Spec |
 |---|---|
-| Sidebar (`aside`) | width 224 (223 + 1px right border). Logo block height 68 with bottom border. Collapse button pinned bottom (block height 57). |
-| Nav item | height 32, inset 8px left/right (width 207), icon 16 at x12, label at x40. Primary item height 40. |
-| Nav group label | uppercase, bold, muted (`text.secondary`), 20px left inset, 20px above first item. Group names and order come from the Workspace profile. |
-| Nav count badge | pill, height ~15, right-aligned. |
-| Header | height 69, horizontal padding 24. Left: H1 title + one-line muted subtitle. Center: search 448×36 with `⌘K` hint. Right: optional page controls, notifications icon button 36×36 with 8px dot, help `?` icon button, user block (32 avatar with initials + name + role). |
-| Main content | padding 24 left/right, 20 top. Max content width 1648 at 1920w. |
-
-Platform utilities (Help, Notifications, account) open from the header. They are not Workspace tiles and do not add sidebar sections.
-
-## Grid and responsive
-
-- Card grids use CSS grid with `fr` units, gap 12. Never fixed pixel columns.
-- Below 1280px: collapse to 2 columns. Below 768px: 1 column, sidebar becomes a drawer.
-- Side panels: desktop = right-side drawer, tablet = overlay, mobile = full-screen surface.
-
-## Card (base surface)
-
-- White surface, radius 16, `shadow.card`, padding 16 + 1px border.
-- Header is translucent: `rgba(249,250,251,.95)` with `backdrop-filter: blur(4px)`, sticky on scroll.
-- Card title (H2) top-left. Optional "View all … →" link button top-right, aligned to the title baseline.
-- Content starts 12px below the title row. Lists inside cards use full-width rows separated by 1px borders.
-
-## Scrolling
-
-- Only the page scrolls vertically. The sidebar is sticky with its own nav scroll area (`.t1-scroll-quiet`).
-- Scrollbars are thin and token-colored. Never leave the OS default scrollbar.
-- Tables must not scroll sideways on desktop. Hide lower-priority columns based on the **card's** width (ResizeObserver), not the window width. The profile lists the drop order.
-- Horizontal chip/segmented rows on phones use `.t1-scroll-x` with a fade mask on the right edge.
+| Sidebar | 224 expanded (≥ 1280) / 68 icon rail (1024–1279) / 256 drawer (< 1024). Brand header 68 + Nav (scrolls, Menu slot) + footer collapse toggle (pinned). |
+| Top header | 68, sticky, `bg-background/95` + blur, border-b. Title + subtitle · search (md+) · date/period · notifications · help · user chip (xl+, button → Account / Sign out). |
+| Main | `px-6 py-5` (`px-4` below sm). Page actions row (left slot + Create) → content → Status bar (fixed bottom, every Workspace). Only the content area scrolls. |
 
 ## Workflow
 
 1. Step 0: load the Workspace profile.
 2. Pick the page pattern (`references/patterns.md`, then the profile).
-3. Build with existing components (`references/components.md`).
+3. Build with existing components (`references/components.md`) inside the shell (`references/shell.md`).
 4. Run `references/review-checklist.md` before finishing. List anything that fails or is missing.

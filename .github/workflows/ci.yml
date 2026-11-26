@@ -33,7 +33,7 @@ jobs:
           printf "module.exports = { presets: [require('@rdthunderthailand/thunderone-theme/tailwind/preset')], content: ['./fixture.html'] };\n" > tailwind.config.cjs
           { cat node_modules/@rdthunderthailand/thunderone-theme/tailwind/shadcn.css; printf '@tailwind base;\n@tailwind components;\n@tailwind utilities;\n'; } > v3.css
           npx tailwindcss -c tailwind.config.cjs -i v3.css -o v3.out.css
-          for c in bg-sidebar-accent shadow-panel rounded-card bg-success-muted h-header; do grep -q "\.$c" v3.out.css || { echo "missing .$c"; exit 1; }; done
+          for c in bg-primary-soft shadow-panel rounded-xl bg-success-soft w-sidebar h-header text-title-page text-label-section bg-brand-navy border-border-subtle max-w-search; do grep -q "\.$c" v3.out.css || { echo "missing .$c"; exit 1; }; done
 
       - name: Tailwind v4 compiles with the theme CSS
         working-directory: tests
@@ -41,15 +41,17 @@ jobs:
           npm i --no-save tailwindcss@4 @tailwindcss/cli@4
           printf '@import "tailwindcss";\n@import "@rdthunderthailand/thunderone-theme/tailwind/v4.css";\n@source "./fixture.html";\n' > v4.css
           npx @tailwindcss/cli -i v4.css -o v4.out.css
-          for c in bg-sidebar-accent shadow-panel rounded-card bg-success-muted h-header; do grep -q "\.$c" v4.out.css || { echo "missing .$c"; exit 1; }; done
+          for c in bg-primary-soft shadow-panel rounded-xl bg-success-soft w-sidebar h-header text-title-page text-label-section bg-brand-navy border-border-subtle max-w-search; do grep -q "\.$c" v4.out.css || { echo "missing .$c"; exit 1; }; done
 
       - name: Setup CLI runs in a fresh project
         run: |
           mkdir -p /tmp/p && cd /tmp/p && git init -q
-          echo '{"name":"p","dependencies":{"antd":"^5"}}' > package.json
+          echo '{"name":"p","dependencies":{"tailwindcss":"^4"}}' > package.json
           DISABLE_TELEMETRY=1 node $GITHUB_WORKSPACE/bin/setup.mjs --source $GITHUB_WORKSPACE --workspace media
           test -f .agents/skills/thunderone-ui/SKILL.md
           test -f .agents/skills/thunderone-ui/references/workspaces/media.md
           grep -q "ThunderOne workspace: media" AGENTS.md
           grep -q "thunder-design-system:start" AGENTS.md
           grep -q "@AGENTS.md" CLAUDE.md
+          DISABLE_TELEMETRY=1 node $GITHUB_WORKSPACE/bin/setup.mjs --source $GITHUB_WORKSPACE --workspace asset --no-skill --no-npmrc | grep -q "tailwind/v4.css"
+          grep -q "ThunderOne workspace: asset" AGENTS.md
